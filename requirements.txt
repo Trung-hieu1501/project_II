@@ -1,0 +1,9 @@
+flask
+Flask-Caching
+pandas
+numpy
+plotly
+scipy
+tensorflow
+scikit-learn
+google-cloud-storage

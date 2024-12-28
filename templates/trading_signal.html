@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theo dõi mã chứng khoán</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="/track">Theo dõi mã chứng khoán</a></li>
+            <li><a href="/optimize_portfolio">Tối ưu danh mục đầu tư</a></li>
+            <li><a href="/stock_price_prediction">Dự báo giá chứng khoán</a></li>
+            <li><a href="/trading_signal">Tìm tín hiệu giao dịch</a></li>
+        </ul>
+    </nav>
+    <main>
+        <!-- Form nhập mã chứng khoán -->
+        <section class="track-stock">
+            <h1>Tìm tín hiệu giao dịch</h1>
+            <form method="POST" action="/trading_signal" class="form-container">
+                <label for="stock_code">Nhập mã chứng khoán:</label>
+                <input type="text" id="stock_code" name="stock_code" autocomplete="off" required>
+                <button type="submit" class="btn">Theo dõi</button>
+            </form>
+            <ul id="suggestions" class="suggestions-list"></ul>
+        </section>
+        
+        <!-- Hiển thị thông tin công ty và danh mục -->
+        {% if company_name %}
+        <div class="company-info">
+            <h2>{{ company_name }}</h2>
+            <h4>Nhóm ngành: {{ category_name }}</h4>
+        </div>
+        
+
+        
+        <!-- Hiển thị biểu đồ tín hiệu -->
+        <div class="chart" id="signal_chart">
+                {{ signal_chart | safe }}
+        </div>
+        {% endif %}
+    </main>
+    
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+</html>
+

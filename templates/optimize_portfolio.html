@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theo dõi mã chứng khoán</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="/track">Theo dõi mã chứng khoán</a></li>
+            <li><a href="/optimize_portfolio">Tối ưu danh mục đầu tư</a></li>
+            <li><a href="/stock_price_prediction">Dự báo giá chứng khoán</a></li>
+            <li><a href="/trading_signal">Tìm tín hiệu giao dịch</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="track-stock">
+            <h1>Tối ưu danh mục đầu tư</h1>
+            <form id="stock-form" class="form-container">
+                <label for="stock_code">Nhập mã chứng khoán:</label>
+                <input type="text" id="stock_code" name="stock_code" autocomplete="off" required>
+                <button type="button" class="btn" id="add-stock">Thêm vào danh sách</button>
+                <button type="button" class="btn" id="find-weights">Tìm tỷ trọng đầu tư</button>
+                <ul id="suggestions-optimize" class="suggestions-list-optimize"></ul>
+            </form>
+
+            <!-- Hiển thị danh sách mã chứng khoán đã chọn -->
+            <section id="selected-stocks-section">
+                <h3>Danh sách mã chứng khoán đã chọn: </h3>
+                <ul id="selected-stocks-list"></ul>
+            </section>
+        </section>
+
+        <!-- Hiển thị danh mục đầu tư -->
+        <section id="portfolio-section" style="display: none;">
+            <h3>Bảng tỷ trọng đầu tư</h3>
+            <h3>Danh sách mã chứng khoán đã chọn: {{ stock_codes }}</h3>
+            <table id="portfolio-table">
+                <thead>
+                    <tr>
+                        <th>Mã chứng khoán</th>
+                        <th>Tỷ trọng đầu tư</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        let selectedStocks = [];  // Danh sách các mã chứng khoán đã chọn
+        const input = document.getElementById('stock_code');
+        const suggestionsList = document.getElementById('suggestions-optimize');
+        const selectedStocksList = document.getElementById('selected-stocks-list');
+
+        // Khi người dùng nhập vào ô tìm kiếm
+        input.addEventListener('input', async () => {
+            const query = input.value.trim(); // Lấy giá trị từ ô tìm kiếm
+
+            if (query) {
+                try {
+                    // Fetch dữ liệu gợi ý (ví dụ dùng API)
+                    const response = await fetch(`/suggest?query=${query}`);
+                    const suggestions = await response.json(); // Mảng các mã chứng khoán
+
+                    if (suggestions.length > 0) {
+                        // Render danh sách gợi ý, bao gồm cả tên công ty
+                        suggestionsList.innerHTML = suggestions
+                            .map(suggestion => {
+                                return `
+                                    <li onclick="selectSuggestion('${suggestion.symbol}')">
+                                        ${suggestion.symbol} - ${suggestion.company_name}
+                                    </li>
+                                `;
+                            })
+                            .join('');
+                        suggestionsList.style.display = 'block'; // Hiển thị danh sách
+                        suggestionsList.style.width = `${input.offsetWidth}px`; // Khớp chiều rộng
+                    } else {
+                        suggestionsList.style.display = 'none'; // Ẩn nếu không có gợi ý
+                    }
+                } catch (error) {
+                    console.error('Error fetching suggestions:', error);
+                    suggestionsList.style.display = 'none';
+                }
+            } else {
+                suggestionsList.style.display = 'none'; // Ẩn nếu không có nội dung nhập
+            }
+        });
+
+        // Khi người dùng chọn một gợi ý
+        function selectSuggestion(symbol) {
+            input.value = symbol; // Điền mã được chọn vào ô input
+            suggestionsList.style.display = 'none'; // Ẩn danh sách gợi ý
+        }
+
+        // Ẩn danh sách khi click ra ngoài vùng tìm kiếm
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.track-stock')) {
+                suggestionsList.style.display = 'none';
+            }
+        });
+
+        // Khi người dùng nhấn "Thêm vào danh sách"
+        document.getElementById('add-stock').addEventListener('click', () => {
+            const stockCode = input.value.trim().toUpperCase();
+            if (stockCode && !selectedStocks.includes(stockCode)) {
+                selectedStocks.push(stockCode); // Thêm mã chứng khoán vào danh sách
+                input.value = ''; // Xóa ô input
+                renderSelectedStocks(); // Cập nhật danh sách đã chọn
+            }
+        });
+
+        // Render danh sách mã chứng khoán đã chọn
+        function renderSelectedStocks() {
+            selectedStocksList.innerHTML = '';  // Clear the list
+            selectedStocks.forEach(stock => {
+                const li = document.createElement('li');
+                li.innerHTML = `${stock} <button onclick="removeStock('${stock}')">X</button>`;
+                selectedStocksList.appendChild(li);
+            });
+        }
+
+        // Khi người dùng nhấn nút "Xóa"
+        function removeStock(stockCode) {
+            selectedStocks = selectedStocks.filter(stock => stock !== stockCode);  // Xóa mã chứng khoán khỏi danh sách
+            renderSelectedStocks();  // Cập nhật lại danh sách
+        }
+
+        // Khi người dùng nhấn "Tìm tỷ trọng đầu tư"
+        document.getElementById('find-weights').addEventListener('click', async () => {
+            if (selectedStocks.length === 0) {
+                
+            }
+            try {
+                const response = await fetch('/optimize_portfolio', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ stocks: selectedStocks })  // Gửi danh sách mã chứng khoán
+                });
+                const portfolio = await response.json();  // Nhận dữ liệu danh mục đầu tư
+
+                if (portfolio.error) {
+                    alert(portfolio.error);
+                } else {
+                    // Hiển thị bảng tỷ trọng đầu tư
+                    const portfolioTableBody = document.querySelector('#portfolio-table tbody');
+                    portfolioTableBody.innerHTML = '';  // Clear current table rows
+
+                    portfolio.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td>${item['Mã chứng khoán']}</td><td>${item['Tỷ trọng đầu tư']}</td>`;
+                        portfolioTableBody.appendChild(row);
+                    });
+
+                    document.getElementById('portfolio-section').style.display = 'block';  // Hiển thị bảng
+                }
+            } catch (error) {
+                console.error('Error sending stocks list:', error);
+            }
+        });
+    </script>
+</body>
+</html>

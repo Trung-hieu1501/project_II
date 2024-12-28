@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theo dõi mã chứng khoán</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="/track">Theo dõi mã chứng khoán</a></li>
+            <li><a href="/optimize_portfolio">Tối ưu danh mục đầu tư</a></li>
+            <li><a href="/stock_price_prediction">Dự báo giá chứng khoán</a></li>
+            <li><a href="/trading_signal">Tìm tín hiệu giao dịch</a></li>
+        </ul>
+    </nav>
+    <main>
+        <!-- Form nhập mã chứng khoán -->
+        <section class="track-stock">
+            <h1>Theo dõi mã chứng khoán</h1>
+            <form method="POST" action="/track" class="form-container">
+                <label for="stock_code">Nhập mã chứng khoán:</label>
+                <input type="text" id="stock_code" name="stock_code" autocomplete="off" required>
+                <button type="submit" class="btn">Theo dõi</button>
+            </form>
+            <ul id="suggestions" class="suggestions-list"></ul>
+        </section>
+        
+        <!-- Hiển thị thông tin công ty và danh mục -->
+        {% if company_name %}
+        <div class="company-info">
+            <h2>{{ company_name }}</h2>
+            <h4>Nhóm ngành: {{ category_name }}</h4>
+        </div>
+        {% endif %}
+
+        <!-- Hiển thị biểu đồ giá -->
+        <div class="chart" id="stock-chart">
+                {{ stock_chart | safe }}
+        </div>
+
+        <!-- Hiển thị bảng tài chính -->
+        {% if table_financial is not none and not table_financial.empty %}
+        <div class="financial-section">
+            <div class="center-text">
+                <h3>Bảng chỉ số tài chính {{company_name}}</h3> <!-- Tiêu đề bảng -->
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Năm</th>
+                        <th>Vốn hóa (tỷ đồng)</th>
+                        <th title="PE - Cho biết nhà đầu tư sẵn sàng trả bao nhiêu tiền cho mỗi đồng lợi nhuận mà công ty tạo ra. Đây là chỉ số đánh giá mức định giá của cổ phiếu.">Chỉ số PE</th>
+                        <th title="EPS - đo lường lợi nhuận mà mỗi cổ phiếu tạo ra. Đây là chỉ số để đánh giá khả năng sinh lời của công ty trên mỗi cổ phiếu.">Chỉ số EPS</th>
+                        <th title="ROE - Đo lường khả năng sinh lời của công ty trên mỗi đồng vốn chủ sở hữu mà các cổ đông đầu tư.">Chỉ số ROE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in table_financial.values %}
+                        <tr>
+                            {% for cell in row %}
+                                <td>
+                                    {% if table_financial.columns[loop.index0] != 'Năm' and cell is number %}
+                                        {{ "%.2f" % cell }}
+                                    {% else %}
+                                        {{ "%.0f" % cell }}
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </main>
+</body>
+</html>
+
+<script src="{{ url_for('static', filename='index.js') }}"></script>

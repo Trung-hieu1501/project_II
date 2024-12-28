@@ -1,0 +1,410 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: #333;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.chart {
+    width: 100%;
+    height: 400px;
+    text-align: center;
+    
+    /* background-color: #e3e3e3; */
+    border-radius: 10px;
+    margin: 0; /* Loại bỏ khoảng cách giữa các biểu đồ */
+    padding: 0; /* Loại bỏ padding nếu có */
+    margin-top: 30px;
+
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0; /* Loại bỏ khoảng cách giữa các ô trong lưới */
+    margin: 0; /* Loại bỏ margin ngoài cùng */
+    padding: 0; /* Loại bỏ padding nếu có */
+}
+
+.option-container {
+    text-align: center;
+    margin: 10px;
+}
+
+.content-container {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin: 10px 0;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+#portfolio-options {
+    display: none;
+}
+
+.form-group-inline {
+    display: inline-block;
+    margin-right: 20px;
+    text-align: left;
+}
+
+.form-group-inline input,
+.form-group-inline select {
+    width: 150px;
+}
+
+nav ul li a:hover {
+    color: #008cff; /* Màu vàng nổi bật */
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.track-stock {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.track-stock h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.track-stock .form-container {
+    margin: 0 auto;
+    display: inline-block;
+    text-align: left;
+}
+
+.track-stock .form-container label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.track-stock .form-container input {
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.track-stock .form-container .btn {
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.track-stock .form-container .btn:hover {
+    background-color: #0056b3;
+}
+
+.form-container {
+    display: flex; /* Sử dụng flexbox để căn chỉnh */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    /* align-items: center; /* Căn giữa theo chiều dọc (nếu cần) */
+    margin: 20px auto; /* Tạo khoảng cách giữa form và các phần tử khác */
+    text-align: left;
+    gap: 10px; /* Tạo khoảng cách giữa các phần tử trong form */
+}
+
+
+/* Gợi ý */
+.suggestions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    position: absolute;
+    width: calc(100% - 20px); /* Đảm bảo chiều rộng khớp với ô input */
+    z-index: 1000;
+}
+
+.suggestions-list li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}
+
+
+/* Danh sách gợi ý */
+#suggestions {
+    display: none; /* Mặc định ẩn danh sách */
+    max-height: 150px; /* Giới hạn chiều cao */
+    overflow-y: auto; /* Thêm thanh cuộn nếu nội dung vượt quá chiều cao */
+    border: 1px solid #ccc; /* Viền */
+    background-color: white; /* Nền trắng */
+    padding: 0; /* Xóa padding mặc định */
+    margin: 0; /* Xóa margin mặc định */
+    position: absolute; /* Đặt danh sách bên dưới ô tìm kiếm */
+    z-index: 1000; /* Đưa danh sách lên trên */
+    width: calc(100% - 2px); /* Khớp chiều rộng với ô tìm kiếm */
+    left: 50%; /* Đặt phần tử ở vị trí 50% chiều rộng của trang */
+    transform: translateX(-29%); /* Dịch chuyển sang trái một nửa chiều rộng của phần tử để căn giữa */
+    border-radius: 10px;
+}
+
+#suggestions li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#suggestions li:hover {
+    background-color: #f0f0f0; /* Nền khi hover */
+}
+
+/* Dữ liệu công ty */
+
+.main-content {
+    background-color: white; /* Màu nền trắng từ biểu đồ trở xuống */
+    padding-bottom: 40px; /* Thêm khoảng trống dưới cùng của trang */
+}
+
+.company-info {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.company-info h2 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+.company-info h4 {
+    font-size: 1.2em;
+    color: #555;
+}
+
+/* .chart {
+    margin-top: 30px;
+    text-align: center;
+} */
+
+.financial-section, 
+.result-df-section, 
+.result-evaluate-section {
+    background-color: white;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.center-text {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.financial-section table, 
+.result-df-section table, 
+.result-evaluate-section table {
+    margin: 0 auto;
+    width: 90%; /* Bảng chiếm 90% chiều rộng */
+    border-collapse: collapse;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.financial-section th, .financial-section td, 
+.result-df-section th, .result-df-section td, 
+.result-evaluate-section th, .result-evaluate-section td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.financial-section th, 
+.result-df-section th, 
+.result-evaluate-section th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-align: center;
+}
+
+.financial-section td:first-child, .financial-section th:first-child, 
+.result-df-section td:first-child, .result-df-section th:first-child, 
+.result-evaluate-section td:first-child, .result-evaluate-section th:first-child {
+    text-align: center;
+}
+
+.financial-section td, 
+.result-df-section td, 
+.result-evaluate-section td {
+    white-space: nowrap;
+}
+
+.financial-section td:last-child, 
+.result-df-section td:last-child, 
+.result-evaluate-section td:last-child {
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .financial-section table, 
+    .result-df-section table, 
+    .result-evaluate-section table {
+        width: 100%;
+    }
+}
+
+
+
+/* Bảng tỷ trọng */
+#portfolio-table {
+    margin: 0 auto;
+    width: 60%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+#portfolio-table th, #portfolio-table td {
+    border: 1px solid #ddd; 
+    padding: 10px;
+    text-align: center;
+}
+
+#portfolio-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+
+/* Additional styling for selected stocks list */
+#selected-stocks-section {
+    margin-top: 20px;
+}
+
+#selected-stocks-list li {
+    margin-bottom: 10px;
+    list-style-type: none;
+}
+
+#selected-stocks-list button {
+    margin-left: 10px;
+    color: red;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#portfolio-table th, #portfolio-table td {
+    padding: 12px 15px;
+}
+
+#portfolio-section h3 {
+    text-align: center; /* Căn giữa văn bản */
+}
+
+.suggestions-list-optimize {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    position: absolute;
+    width: calc(100% - 20px); /* Đảm bảo chiều rộng khớp với ô input */
+    z-index: 1000;
+}
+
+.suggestions-list-optimize li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-list-optimize li:hover {
+    background-color: #f0f0f0;
+}
+
+
+/* Danh sách gợi ý */
+#suggestions-optimize {
+    display: none; /* Mặc định ẩn danh sách */
+    max-height: 150px; /* Giới hạn chiều cao */
+    overflow-y: auto; /* Thêm thanh cuộn nếu nội dung vượt quá chiều cao */
+    border: 1px solid #ccc; /* Viền */
+    background-color: white; /* Nền trắng */
+    padding: 0; /* Xóa padding mặc định */
+    margin: 0; /* Xóa margin mặc định */
+    position: absolute; /* Đặt danh sách bên dưới ô tìm kiếm */
+    z-index: 1000; /* Đưa danh sách lên trên */
+    width: calc(100% - 10px); /* Khớp chiều rộng với ô tìm kiếm */
+    left: 50%; /* Đặt phần tử ở vị trí 50% chiều rộng của trang */
+    transform: translateX(-76%); /* Dịch chuyển sang trái một nửa chiều rộng của phần tử để căn giữa */
+    border-radius: 10px;
+}
+
+#suggestions-optimize li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#suggestions-optimize li:hover {
+    background-color: #f0f0f0; /* Nền khi hover */
+}
+ /*  */
